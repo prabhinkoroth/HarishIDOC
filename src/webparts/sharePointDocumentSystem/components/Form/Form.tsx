@@ -9,15 +9,40 @@ import { Dropdown } from "office-ui-fabric-react/lib/components/Dropdown/Dropdow
 import { Toggle } from "office-ui-fabric-react/lib/components/Toggle/Toggle";
 import { DatePicker } from "office-ui-fabric-react/lib/components/DatePicker/DatePicker";
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
+import { IDropdownOption } from "office-ui-fabric-react/lib/components/Dropdown/Dropdown.types";
+import IFabricConversionService from "../../../../Services/ObjectConversionServices/IFabricConversionService";
+import FabricConversionService from "../../../../Services/ObjectConversionServices/FabricConversionService";
 export default class Form extends React.Component<IFormProps, IFormStats>{
 
-
-
+    private _processOptions: IDropdownOption[] = [];
+    private _documentTypeOptions: IDropdownOption[] = [];
+    private _areaOfValidityOptions: IDropdownOption[] = [];
+    private _iSOStandardOptions: IDropdownOption[] = [];
+    private _iSOStandardElementChapterOptions: IDropdownOption[] = [];
+    private _businessLineOptions: IDropdownOption[] = [];
+    private _revisionIntervalOptions: IDropdownOption[] = [];
+private _fabricConversionService:IFabricConversionService;
     constructor(props: IFormProps) {
         super(props);
-
+        this._fabricConversionService=new FabricConversionService();
+    }
+    public componentDidMount(): void {
+        debugger;
+        
+    }
+    public shouldComponentUpdate(newProps: IFormProps): boolean {
+        return newProps.RefreshForm;
     }
     public render(): React.ReactElement<IFormProps> {
+        debugger;
+        this._processOptions = this._fabricConversionService.convertToDropdownOptions(this.props.Processes,"Id","ProcessName");
+        this._documentTypeOptions=this._fabricConversionService.convertToDropdownOptions(this.props.DocumentTypes,"Id","DocumentType");
+        // this.props.Processes.map((item): IDropdownOption => {
+        //     return {
+        //         key: item.Id,
+        //         text: item.ProcessName
+        //     };
+        // }); 
         return (
             <div className={styles.sharePointDocumentSystem}>
                 <div className={styles.container}>
@@ -31,16 +56,16 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select a Document type" label="Document Type"></Dropdown>
+                            <Dropdown required options={this._documentTypeOptions} placeholder="Select a Document type" label="Document Type"></Dropdown>
 
                         </div>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select a Process" label="Process"></Dropdown>
+                            <Dropdown required options={this._processOptions} placeholder="Select a Process" label="Process"></Dropdown>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select an Area of validity" label="Area of validity"></Dropdown>
+                            <Dropdown required options={this._areaOfValidityOptions} placeholder="Select an Area of validity" label="Area of validity"></Dropdown>
                         </div>
                         <div className={styles.column}>
                             <TextField required label="Version Number" id="txtVersionNumber" disabled name="txtVersionNumber"></TextField>
@@ -48,10 +73,10 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select an ISO Standard" label="ISO Standard" id="ddlISOStandard" ></Dropdown>
+                            <Dropdown required options={this._iSOStandardOptions} placeholder="Select an ISO Standard" label="ISO Standard" id="ddlISOStandard" ></Dropdown>
                         </div>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select an ISO Standard Element / Chapter" label="ISO Standard Element / Chapter"
+                            <Dropdown required options={this._iSOStandardElementChapterOptions} placeholder="Select an ISO Standard Element / Chapter" label="ISO Standard Element / Chapter"
                                 id="ddlISOStandardElementChapter" ></Dropdown>
                         </div>
                     </div>
@@ -68,7 +93,7 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                             <TextField required label="Plant" placeholder="Enter Plant" id="txtPlant" name="txtPlant" disabled></TextField>
                         </div>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} placeholder="Select an Business Line" label="Business Line"
+                            <Dropdown required options={this._businessLineOptions} placeholder="Select an Business Line" label="Business Line"
                                 id="ddlBusinessLine" ></Dropdown>
                         </div>
                     </div>
@@ -77,7 +102,7 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                             <TextField required label="Duration of archiving" id="txtDurationOfArchiving" name="txtDurationOfArchiving" disabled></TextField>
                         </div>
                         <div className={styles.column}>
-                            <Toggle   label="EHS relevant" defaultChecked onText="Yes" offText="No" id="chkbxEHSRelevant" />
+                            <Toggle label="EHS relevant" defaultChecked onText="Yes" offText="No" id="chkbxEHSRelevant" />
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -87,7 +112,7 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                         <div className={styles.column}>
 
                             <PeoplePicker
-                            
+
                                 context={this.props.context}
                                 titleText="Business Process Owner (BPO)"
                                 personSelectionLimit={1}
@@ -159,7 +184,7 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown required options={[]} id="ddlRevisionInterval" placeholder="Select an Revision Interval" label="Revision Interval"></Dropdown>
+                            <Dropdown required options={this._revisionIntervalOptions} id="ddlRevisionInterval" placeholder="Select an Revision Interval" label="Revision Interval"></Dropdown>
                         </div>
                         <div className={styles.column}>
                             <TextField required label="Reminder revision interval (days)" id="txtReminderRevisionInterval" name="txtReminderRevisionInterval" ></TextField>
@@ -167,7 +192,7 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <DatePicker isRequired   placeholder="Select a date..." label="Valid from" ariaLabel="Valid from" id="txtValidFrom" />
+                            <DatePicker isRequired placeholder="Select a date..." label="Valid from" ariaLabel="Valid from" id="txtValidFrom" />
                         </div>
                         <div className={styles.column}>
                             <DatePicker isRequired placeholder="Select a date..." label="Valid until" ariaLabel="Valid until" id="txtValidUntil" />
