@@ -21,7 +21,8 @@ export default class SharePointDocumentSystemWebPart extends BaseClientSideWebPa
     const element: React.ReactElement<ISharePointDocumentSystemProps> = React.createElement(
       SharePointDocumentSystem,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        context:this.context
       }
     );
 

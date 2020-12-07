@@ -7,6 +7,8 @@ import { DefaultPalette } from "office-ui-fabric-react/lib/Styling";
 import styles from "../SharePointDocumentSystem.module.scss";
 import { Dropdown } from "office-ui-fabric-react/lib/components/Dropdown/Dropdown";
 import { Toggle } from "office-ui-fabric-react/lib/components/Toggle/Toggle";
+import { DatePicker } from "office-ui-fabric-react/lib/components/DatePicker/DatePicker";
+import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 export default class Form extends React.Component<IFormProps, IFormStats>{
 
 
@@ -21,113 +23,222 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
                 <div className={styles.container}>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <TextField label="Document Title" id="txtDocumentTitle" name="txtDocumentTitle"></TextField>
+                            <TextField required label="Document Title" id="txtDocumentTitle" name="txtDocumentTitle"></TextField>
                         </div>
                         <div className={styles.column}>
-                            <TextField label="Document Number" id="txtDocumentNumber" disabled name="txtDocumentNumber"></TextField>
+                            <TextField required label="Document Number" id="txtDocumentNumber" disabled name="txtDocumentNumber"></TextField>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown options={[]} placeholder="Select a Document type" label="Document Type"></Dropdown>
+                            <Dropdown required options={[]} placeholder="Select a Document type" label="Document Type"></Dropdown>
 
                         </div>
                         <div className={styles.column}>
-                            <Dropdown options={[]} placeholder="Select a Process" label="Process"></Dropdown>
+                            <Dropdown required options={[]} placeholder="Select a Process" label="Process"></Dropdown>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown options={[]} placeholder="Select an Area of validity" label="Area of validity"></Dropdown>
+                            <Dropdown required options={[]} placeholder="Select an Area of validity" label="Area of validity"></Dropdown>
                         </div>
                         <div className={styles.column}>
-                            <TextField label="Version Number" id="txtVersionNumber" disabled name="txtVersionNumber"></TextField>
+                            <TextField required label="Version Number" id="txtVersionNumber" disabled name="txtVersionNumber"></TextField>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown options={[]} placeholder="Select an ISO Standard" label="ISO Standard" id="ddlISOStandard" ></Dropdown>
+                            <Dropdown required options={[]} placeholder="Select an ISO Standard" label="ISO Standard" id="ddlISOStandard" ></Dropdown>
                         </div>
                         <div className={styles.column}>
-                            <Dropdown options={[]} placeholder="Select an ISO Standard Element / Chapter" label="ISO Standard Element / Chapter"
+                            <Dropdown required options={[]} placeholder="Select an ISO Standard Element / Chapter" label="ISO Standard Element / Chapter"
                                 id="ddlISOStandardElementChapter" ></Dropdown>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                        <TextField multiline label="Keywords" id="tbxKeywords"  name="tbxKeywords"></TextField>
+                            <TextField required multiline label="Keywords" id="tbxKeywords" name="tbxKeywords"></TextField>
                         </div>
                         <div className={styles.column}>
-                        <TextField label="Region" id="txtRegion"  name="txtRegion" disabled></TextField>
+                            <TextField required label="Region" id="txtRegion" name="txtRegion" disabled></TextField>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                        <TextField label="Plant"  placeholder="Enter Plant" id="txtPlant"  name="txtPlant" disabled></TextField>
+                            <TextField required label="Plant" placeholder="Enter Plant" id="txtPlant" name="txtPlant" disabled></TextField>
                         </div>
                         <div className={styles.column}>
-                        <Dropdown options={[]} placeholder="Select an Business Line" label="Business Line"
-id="ddlBusinessLine" ></Dropdown>
+                            <Dropdown required options={[]} placeholder="Select an Business Line" label="Business Line"
+                                id="ddlBusinessLine" ></Dropdown>
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                        <TextField label="Duration of archiving" id="txtDurationOfArchiving"  name="txtDurationOfArchiving" disabled></TextField>
+                            <TextField required label="Duration of archiving" id="txtDurationOfArchiving" name="txtDurationOfArchiving" disabled></TextField>
                         </div>
                         <div className={styles.column}>
-                        <Toggle label="EHS relevant" defaultChecked onText="Yes" offText="No" id="chkbxEHSRelevant" />
+                            <Toggle   label="EHS relevant" defaultChecked onText="Yes" offText="No" id="chkbxEHSRelevant" />
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                        <Toggle label="Reading confirmation" defaultChecked onText="Yes" offText="No" id="chkbxReadingConfirmation" />
+                            <Toggle label="Reading confirmation" defaultChecked onText="Yes" offText="No" id="chkbxReadingConfirmation" />
                         </div>
                         <div className={styles.column}>
-                        Business Process Owner (BPO)
+
+                            <PeoplePicker
+                            
+                                context={this.props.context}
+                                titleText="Business Process Owner (BPO)"
+                                personSelectionLimit={1}
+                                groupName={""} // Leave this blank in case you want to filter from all users
+                                showtooltip={true}
+                                required={true}
+                                onChange={() => { }}
+                                showHiddenInUI={false}
+                                principalTypes={[PrincipalType.User]}
+                                resolveDelay={1000} />
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                       
-                        Author
-                        </div>
-                        <div className={styles.column}>
-                        
-                        Verifier
-
-                        </div>
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.column}>
-                        Releaser
-
-                        </div>
-                        <div className={styles.column}>
-
-                        </div>
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.column}>
-                        <TextField multiline label="Remarks for workflow mails" id="txtRemarksForWorkflowMails"  name="txtRemarksForWorkflowMails" ></TextField>
+                            <PeoplePicker
+                                context={this.props.context}
+                                titleText="Author"
+                                personSelectionLimit={1}
+                                groupName={""} // Leave this blank in case you want to filter from all users
+                                showtooltip={true}
+                                required={true}
+                                onChange={() => { }}
+                                showHiddenInUI={false}
+                                principalTypes={[PrincipalType.User]}
+                                resolveDelay={1000} />
                         </div>
                         <div className={styles.column}>
 
-                        </div>
-                    </div>
-                    <div className={styles.row}>
-                        <div className={styles.column}>
 
-                        </div>
-                        <div className={styles.column}>
-
+                            <PeoplePicker
+                                context={this.props.context}
+                                titleText="Verifier"
+                                personSelectionLimit={1}
+                                groupName={""} // Leave this blank in case you want to filter from all users
+                                showtooltip={true}
+                                required={true}
+                                onChange={() => { }}
+                                showHiddenInUI={false}
+                                principalTypes={[PrincipalType.User]}
+                                resolveDelay={1000} />
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
 
+                            <PeoplePicker
+                                context={this.props.context}
+                                titleText="Releaser"
+                                personSelectionLimit={1}
+                                groupName={""} // Leave this blank in case you want to filter from all users
+                                showtooltip={true}
+                                required={true}
+                                onChange={() => { }}
+                                showHiddenInUI={false}
+                                principalTypes={[PrincipalType.User]}
+                                resolveDelay={1000} />
                         </div>
                         <div className={styles.column}>
 
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Remarks for workflow mails" id="txtRemarksForWorkflowMails" name="txtRemarksForWorkflowMails" ></TextField>
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required label="Reminder workflow steps (days)" id="txtReminderWorkflowSteps" name="txtReminderWorkflowSteps" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <Dropdown required options={[]} id="ddlRevisionInterval" placeholder="Select an Revision Interval" label="Revision Interval"></Dropdown>
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required label="Reminder revision interval (days)" id="txtReminderRevisionInterval" name="txtReminderRevisionInterval" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <DatePicker isRequired   placeholder="Select a date..." label="Valid from" ariaLabel="Valid from" id="txtValidFrom" />
+                        </div>
+                        <div className={styles.column}>
+                            <DatePicker isRequired placeholder="Select a date..." label="Valid until" ariaLabel="Valid until" id="txtValidUntil" />
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Print information validity on day of printing only" id="txtPrintInformationValidity" name="txtPrintInformationValidity" ></TextField>
+                        </div>
+                        <div className={styles.column}>
+
+                            <PeoplePicker
+                                context={this.props.context}
+                                titleText="Distribution list"
+                                personSelectionLimit={10}
+                                groupName={""} // Leave this blank in case you want to filter from all users
+                                showtooltip={true}
+                                required={true}
+                                onChange={() => { }}
+                                showHiddenInUI={false}
+                                principalTypes={[PrincipalType.User]}
+                                resolveDelay={1000} />
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Pending reader confirmation" id="txtPendingReaderConfirmation" name="txtPendingReaderConfirmation" ></TextField>
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Content" id="txtContent" name="txtContent" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Additional applicable documents" id="txtAdditionalApplicableDocuments" name="txtAdditionalApplicableDocuments" ></TextField>
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Proof of training" id="txtProofOfTraining" name="txtProofOfTraining" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            Status of document
+
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Mark of change text" id="txtMarkOfChangeText" name="txtMarkOfChangeText" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Refer to standard in case of test procedures" id="txtReferStandardTestProcedures" name="txtReferStandardTestProcedures" ></TextField>
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Comments of readers to the document" id="txtCommentsReadersDocument" name="txtCommentsReadersDocument" ></TextField>
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <DatePicker isRequired placeholder="Select a date..." label="Date of archive" ariaLabel="Date of archive" id="txtDateOfArchive" />
+                        </div>
+                        <div className={styles.column}>
+                            <DatePicker isRequired placeholder="Select a date..." label="Date of release" ariaLabel="Date of release" id="txtDateOfRelease" />
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <DatePicker isRequired placeholder="Select a date..." label="Date of next revision" ariaLabel="Date of next revision" id="txtDateOfNextRevision" />
+                        </div>
+                        <div className={styles.column}>
+                            <TextField required multiline label="Comment history" id="txtCommentHistory" name="txtCommentHistory" ></TextField>
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -138,6 +249,7 @@ id="ddlBusinessLine" ></Dropdown>
 
                         </div>
                     </div>
+
                 </div>
             </div>
         );

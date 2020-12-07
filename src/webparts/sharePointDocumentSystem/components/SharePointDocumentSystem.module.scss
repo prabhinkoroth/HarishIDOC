@@ -9,7 +9,7 @@
 
   .row {
     @include ms-Grid-row;
-    @include ms-fontColor-white;
+    @include ms-fontColor-black;
     background-color: $ms-color-white;//$ms-color-themeDark;
     padding: 10px;
   }
@@ -19,7 +19,7 @@
     @include ms-lg6;
     @include ms-xl6;
     @include ms-md6;
-    @include ms-sm6;
+    @include ms-sm12;
     // @include ms-xlPush2;
     // @include ms-lgPush1;
   }
