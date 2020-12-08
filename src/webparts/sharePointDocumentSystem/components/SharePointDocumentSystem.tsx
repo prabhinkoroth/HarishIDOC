@@ -30,7 +30,7 @@ export default class SharePointDocumentSystem extends React.Component<ISharePoin
         RefreshForm={true}
         BusinessLines={[]}
         DocumentTypes={this._appManager.DocumentTypes}
-        ISOStandards={[]}
+        ISOStandards={this._appManager.ISOStandardItems}
         RevisionIntervals={[]}
         ISOStandardElementChapters={[]}
         AreaOfValidities={[]}

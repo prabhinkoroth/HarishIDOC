@@ -5,4 +5,6 @@ export interface IDocumentSystem{
       GetAllMasterData():void;
       Processes:IProcess[];
       DocumentTypes: IDocumentType[] ;
+      ISOStandardItems:string[];
+
 }

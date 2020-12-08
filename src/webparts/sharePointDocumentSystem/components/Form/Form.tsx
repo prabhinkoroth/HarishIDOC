@@ -12,6 +12,9 @@ import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/People
 import { IDropdownOption } from "office-ui-fabric-react/lib/components/Dropdown/Dropdown.types";
 import IFabricConversionService from "../../../../Services/ObjectConversionServices/IFabricConversionService";
 import FabricConversionService from "../../../../Services/ObjectConversionServices/FabricConversionService";
+import { Separator } from "office-ui-fabric-react/lib/components/Separator/Separator";
+import { Icon } from "office-ui-fabric-react";
+import * as moment from "moment";
 export default class Form extends React.Component<IFormProps, IFormStats>{
 
     private _processOptions: IDropdownOption[] = [];
@@ -21,22 +24,25 @@ export default class Form extends React.Component<IFormProps, IFormStats>{
     private _iSOStandardElementChapterOptions: IDropdownOption[] = [];
     private _businessLineOptions: IDropdownOption[] = [];
     private _revisionIntervalOptions: IDropdownOption[] = [];
-private _fabricConversionService:IFabricConversionService;
+    private _fabricConversionService: IFabricConversionService;
+    private _durationOfArchivingMinDate:Date=null;
     constructor(props: IFormProps) {
         super(props);
-        this._fabricConversionService=new FabricConversionService();
+        this._fabricConversionService = new FabricConversionService();
+        this._durationOfArchivingMinDate=moment(new Date()).add('years', 10).toDate();
     }
     public componentDidMount(): void {
         debugger;
-        
+
     }
     public shouldComponentUpdate(newProps: IFormProps): boolean {
         return newProps.RefreshForm;
     }
     public render(): React.ReactElement<IFormProps> {
         debugger;
-        this._processOptions = this._fabricConversionService.convertToDropdownOptions(this.props.Processes,"Id","ProcessName");
-        this._documentTypeOptions=this._fabricConversionService.convertToDropdownOptions(this.props.DocumentTypes,"Id","DocumentType");
+        this._processOptions = this._fabricConversionService.convertToDropdownOptions(this.props.Processes, "Id", "ProcessName");
+        this._documentTypeOptions = this._fabricConversionService.convertToDropdownOptions(this.props.DocumentTypes, "Id", "DocumentType");
+        this._iSOStandardOptions = this._fabricConversionService.convertToDropdownOptions(this.props.ISOStandards, "", "");
         // this.props.Processes.map((item): IDropdownOption => {
         //     return {
         //         key: item.Id,
@@ -64,9 +70,25 @@ private _fabricConversionService:IFabricConversionService;
                         </div>
                     </div>
                     <div className={styles.row}>
+                        <Separator alignContent="start">  <Icon iconName="FavoriteStar" color="red" />  Area of validity      </Separator>
+                    </div>
+                    <div className={styles.row}>
                         <div className={styles.column}>
-                            <Dropdown required options={this._areaOfValidityOptions} placeholder="Select an Area of validity" label="Area of validity"></Dropdown>
+                            <Dropdown options={[]}  required label="Region" id="ddlRegion" ></Dropdown>
                         </div>
+                        <div className={styles.column}>
+                            <Dropdown options={[]} multiSelect required label="Plant" id="ddlPlant" placeholder="Enter Plant"  ></Dropdown>
+
+                        </div>
+                    </div>
+                    <div className={styles.row}>
+                        <div className={styles.column}>
+                            <Dropdown options={[]} multiSelect required label="Department" id="ddlDepartment" ></Dropdown>
+                        </div>
+                       
+                    </div>
+                    <div className={styles.row}>
+
                         <div className={styles.column}>
                             <TextField required label="Version Number" id="txtVersionNumber" disabled name="txtVersionNumber"></TextField>
                         </div>
@@ -84,14 +106,10 @@ private _fabricConversionService:IFabricConversionService;
                         <div className={styles.column}>
                             <TextField required multiline label="Keywords" id="tbxKeywords" name="tbxKeywords"></TextField>
                         </div>
-                        <div className={styles.column}>
-                            <TextField required label="Region" id="txtRegion" name="txtRegion" disabled></TextField>
-                        </div>
+
                     </div>
                     <div className={styles.row}>
-                        <div className={styles.column}>
-                            <TextField required label="Plant" placeholder="Enter Plant" id="txtPlant" name="txtPlant" disabled></TextField>
-                        </div>
+
                         <div className={styles.column}>
                             <Dropdown required options={this._businessLineOptions} placeholder="Select an Business Line" label="Business Line"
                                 id="ddlBusinessLine" ></Dropdown>
@@ -99,7 +117,8 @@ private _fabricConversionService:IFabricConversionService;
                     </div>
                     <div className={styles.row}>
                         <div className={styles.column}>
-                            <TextField required label="Duration of archiving" id="txtDurationOfArchiving" name="txtDurationOfArchiving" disabled></TextField>
+                            
+                            <DatePicker isRequired placeholder="Select a date..." minDate={this._durationOfArchivingMinDate} label="Duration of archiving" id="txtDurationOfArchiving" />
                         </div>
                         <div className={styles.column}>
                             <Toggle label="EHS relevant" defaultChecked onText="Yes" offText="No" id="chkbxEHSRelevant" />

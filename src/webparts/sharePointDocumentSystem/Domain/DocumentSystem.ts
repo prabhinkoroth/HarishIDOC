@@ -9,6 +9,7 @@ export class DocumentSystem implements IDocumentSystem {
     private _listService: IListOperationService = null;
     public Processes: IProcess[] = [];
     public DocumentTypes: IDocumentType[] = [];
+    public ISOStandardItems:string[]=["ISO 9001", "ISO 14001", "ISO 50001", "ISO 45001"];
     constructor() {
 
         this._listService = new ListOperationService();
