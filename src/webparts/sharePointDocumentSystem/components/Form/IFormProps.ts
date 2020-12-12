@@ -16,5 +16,11 @@ export interface IFormProps{
     ISOStandardElementChapters:IISOStandardElementChapter[];
     BusinessLines:IBusinessLine[];
     RevisionIntervals:IRevisionInterval[];
+    
+    
+    Regions:string[];
+    Plants:string[];
+    Departments:string[];
     RefreshForm:boolean;
+    generateDocumentNumberPart(): Promise<number>;
 }

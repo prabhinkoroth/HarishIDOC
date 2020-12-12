@@ -6,5 +6,14 @@ export interface IDocumentSystem{
       Processes:IProcess[];
       DocumentTypes: IDocumentType[] ;
       ISOStandardItems:string[];
+      ISOStandardElementsItems:string[];
+      BusinessOptionsItems:string[];
+      Regions:string[];
+      Plants:string[];
+      Departments:string[];
+      RevisionIntervals:string[];
+      GenerateDocumentNumberPart(): Promise<number>;
+
+
 
 }
